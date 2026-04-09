@@ -48,4 +48,18 @@ export class QuoteService implements IQuoteService {
         }
     }
 
+    async getById(id:number){
+        try{
+            const quote = await this.QuoteRepository.findByPk(id)
+            if(!quote){
+                return Result.fail("Citação não encontrada", 404)
+            }
+            return Result.ok(quote, 200)
+        }catch(err){
+            const error = err instanceof Error ? err : new Error(String(err));
+            console.error(`Erro ao resgatar citação de id ${id}`, error.message)
+            return Result.fail(error, 500)
+        }
+    }
+
 }

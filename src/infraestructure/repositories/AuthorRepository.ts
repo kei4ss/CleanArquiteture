@@ -18,18 +18,19 @@ export class AuthorRepository implements IAuthorRepository {
     }
     
     async findByPk(pk:number): Promise<Author | null>{
-        return Author.findByPk(pk)
-    }
-
-    async findAll(): Promise<Author[]>{
-        return Author.findAll({
+        return Author.findByPk(pk, {
             include: [
                 {
                     model: Quote,
-                    as: "quotes"
+                    as: "quotes",
+                    attributes: ["id", "quote"]
                 }
             ]
         })
+    }
+
+    async findAll(): Promise<Author[]>{
+        return Author.findAll()
     }
 
     async deleteByPk(pk:number): Promise<boolean>{

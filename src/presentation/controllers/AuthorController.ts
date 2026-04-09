@@ -8,6 +8,7 @@ import {handleServiceResult, sendError} from "../../application/utils/controller
 const authorService = new AuthorService(AuthorRepository);
 const AuthorController:Router = Router()
 
+// GET /api/authors/
 AuthorController.get("/", async (req:Request, res:Response)=>{
     try{
         const result:Result = await authorService.getAllAuthors()
@@ -19,6 +20,7 @@ AuthorController.get("/", async (req:Request, res:Response)=>{
     }
 })
 
+// GET /api/authors/:id
 AuthorController.get("/:id", async (req:Request, res:Response)=>{
     try{
         const {id} = req.params
@@ -32,6 +34,7 @@ AuthorController.get("/:id", async (req:Request, res:Response)=>{
     } 
 })
 
+// POST /api/authors/
 AuthorController.post("/", async (req:Request, res:Response)=>{
     try{
         const body = req.body;
@@ -44,5 +47,17 @@ AuthorController.post("/", async (req:Request, res:Response)=>{
     }
 })
 
+// DELETE /api/authors/:id
+AuthorController.delete("/:id", async (req:Request, res: Response)=>{
+    try{
+        const id = Number(req.params.id)
+        const result = await authorService.deleteAuthor(id)
+        return handleServiceResult(res, result)
+    }catch(err){
+        const error = err instanceof Error ? err : Error(String(err))
+        console.error(`[${new Date()}] ERRO: deletar usuário`, error)
+        sendError(res, 500, "Erro ao iniciar processo de exclusão")
+    }
+})
 
 export default AuthorController

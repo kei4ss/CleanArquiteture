@@ -1,4 +1,5 @@
 import Quote from "../../domain/Entities/Quote"
+import { Author } from "../../domain/Entities/Author";
 import {IQuote} from "../../domain/Interfaces/IQuote"
 import {IQuoteRepository} from "../../domain/Interfaces/IQuoteRepository"
 
@@ -20,7 +21,16 @@ export class QuoteRepository implements IQuoteRepository {
    * @returns Retorna a citação ou null se não encontrada
    */
   async findByPk(pk: number): Promise<Quote | null> {
-    return Quote.findByPk(pk);
+    return Quote.findByPk(pk, {
+      attributes: ["id", "quote"],
+      include:[
+        {
+          model: Author,
+          as: "said_by",
+          attributes: ["id", "name"]
+        }
+      ],
+    });
   }
  
   /**
