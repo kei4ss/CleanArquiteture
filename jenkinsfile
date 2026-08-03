@@ -6,7 +6,19 @@ pipeline {
             steps {
                 script {
                     sh 'docker --version'
-                    sh 'docker build -t my-image:latest .'
+                    sh 'docker build -t quote-app .'
+                }
+            }
+        }
+
+        stage('Publish image in dockerHub registry') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                        sh "docker tag quote-app $DOCKER_USERNAME/quote-app:latest"
+                        sh "docker push $DOCKER_USERNAME/quote-app:latest"
+                    }
                 }
             }
         }
