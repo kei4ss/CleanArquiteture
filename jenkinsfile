@@ -2,18 +2,11 @@ pipeline {
     agent any
     stages {
 
-        stage('Testing docker version') {
+        stage('Building project') {
             steps {
                 script {
                     sh 'docker --version'
-                }
-            }
-        }
-
-        stage('Build docker image') {
-            steps {
-                script {
-                    sh 'docker build -t my-image:latest Dockerfile'
+                    sh 'docker build -t my-image:latest .'
                 }
             }
         }
