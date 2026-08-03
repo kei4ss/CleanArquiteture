@@ -4,7 +4,9 @@ pipeline {
         stage('Build docker image') {
             steps {
                 script {
-                    sh 'docker compose up --build'
+                    sh 'TESTE DE VERSAO DO DOCKER'
+                    sh 'docker --version'
+                    sh 'docker build -t my-image:latest .'
                 }
             }
         }
