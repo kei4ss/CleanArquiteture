@@ -5,10 +5,16 @@ pipeline {
         stage('Building project') {
             steps {
                 script {
-                    configFileProvider(
-                        [configFile(fileId: '62fc86a6-b785-4eec-8c8d-4e675d50b8a2', targetLocation: '.env')]
-                    )
-                    sh 'docker build -t quote-app .'
+                    configFileProvider([
+                        configFile(
+                            fileId: '62fc86a6-b785-4eec-8c8d-4e675d50b8a2', 
+                            targetLocation: '.env'
+                            )
+                        ]
+                    ){
+                        sh 'docker build -t quote-app .'
+                    }
+                    
                 }
             }
         }
