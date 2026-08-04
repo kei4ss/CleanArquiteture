@@ -36,9 +36,11 @@ pipeline {
         stage('Deploy in local server'){
             steps {
                 script {
-                    sh "docker rmi --force $DOCKER_USERNAME/quote-app:latest || true"
-                    sh "docker pull $DOCKER_USERNAME/quote-app:latest"
-                    sh "docker run -d --name quote-app -p 8081:8081 $DOCKER_USERNAME/quote-app:latest"
+                    withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker rmi --force $DOCKER_USERNAME/quote-app:latest || true"
+                        sh "docker pull $DOCKER_USERNAME/quote-app:latest"
+                        sh "docker run -d --name quote-app -p 8081:8081 $DOCKER_USERNAME/quote-app:latest"
+                    }
                 }
             }
         }
