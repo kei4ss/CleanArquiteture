@@ -5,7 +5,9 @@ pipeline {
         stage('Building project') {
             steps {
                 script {
-                    sh 'docker --version'
+                    configFileProvider(
+                        [configFile(fileId: '', targetLocation: '.env')]
+                    )
                     sh 'docker build -t quote-app .'
                 }
             }

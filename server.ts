@@ -3,7 +3,7 @@ import {setupAssociations} from "./src/infraestructure/assossiations/association
 import app from "./src/app"
 import sequelize from "./src/infraestructure/database/database"
 
-const PORT:number = 3000
+const PORT:number = process.env.PORT ? parseInt(process.env.PORT) : 3000
 
 const bootstrap = async() => {
     try{
