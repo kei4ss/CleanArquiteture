@@ -8,10 +8,12 @@ pipeline {
                     configFileProvider([
                         configFile(
                             fileId: '62fc86a6-b785-4eec-8c8d-4e675d50b8a2', 
-                            targetLocation: '.env'
+                            targetLocation: '.env',
+                            variable: 'ENV_FILE'
                             )
                         ]
                     ){
+                        sh "echo 'Using environment file: $ENV_FILE'"
                         sh 'docker build -t quote-app .'
                     }
                     
@@ -36,6 +38,7 @@ pipeline {
                 script {
                     sh "docker rm --force quote-app || true"
                     sh "docker run -d --name quote-app -p 8081:8081 quote-app"
+                    sh "docker logs quote-app"
                 }
             }
         }
