@@ -13,8 +13,13 @@ pipeline {
                             )
                         ]
                     ){
-                        sh "echo 'Using environment file: $ENV_FILE'"
-                        sh 'docker build -t quote-app .'
+                        echo "Checking .env..."
+                        test -f .env && echo ".env exists"
+
+                        docker build -t quote-app .
+
+                        echo "Checking .env inside image..."
+                        docker run --rm quote-app sh -c 'ls -la /app/.env'
                     }
                     
                 }
