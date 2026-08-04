@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     configFileProvider(
-                        [configFile(fileId: '', targetLocation: '.env')]
+                        [configFile(fileId: '62fc86a6-b785-4eec-8c8d-4e675d50b8a2', targetLocation: '.env')]
                     )
                     sh 'docker build -t quote-app .'
                 }
